@@ -65,9 +65,8 @@ public class ImageContainer {
 		loadGhostImages("clyde", clyde);
 		loadGhostImages("orson", orson);
 		loadGhostImages("spooky", spooky);
-		loadPacmanImages();
-		
-		background = new ImageIcon(getClass().getResource("/background.png").getPath()).getImage();
+		loadPacmanImages();		
+		background = new ImageIcon(getClass().getResource("/background.png")).getImage();
 		pacmanLife = pacman[3];
 	}
 	
@@ -78,12 +77,13 @@ public class ImageContainer {
 	 * @param arr an array of images
 	 */
 	private void loadGhostImages(String name, Image[] arr)
-	{
+	{		
 		for(Direction direction : Direction.values())
 			if (direction != Direction.NONE)
+			{	
 				arr[direction.ordinal()] = new ImageIcon(getClass().getResource
-						(String.format("/%s_%s.png", name, 
-								direction.toString().toLowerCase())).getPath()).getImage();		
+						(String.format("/%s_%s.png", name, direction.toString().toLowerCase()))).getImage();		
+			}
 	}
 	
 	/**

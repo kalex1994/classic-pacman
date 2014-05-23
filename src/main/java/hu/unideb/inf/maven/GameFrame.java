@@ -257,8 +257,7 @@ public class GameFrame extends JFrame implements ActionListener {
 		 * @param ghost the ghost to draw
 		 */
 		private void drawGhost(Graphics g, Ghost ghost) {
-			logger.info("{}", images.pinky[ghost.getDirection().ordinal()].getWidth(null));
-			
+
 			if (ghost.getName().equals("pinky"))
 				g.drawImage(
 						images.pinky[ghost.getDirection().ordinal()],
