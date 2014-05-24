@@ -59,8 +59,6 @@ public class Maze {
 					if (node.getNodeType() == Node.ELEMENT_NODE) {
 						String row = node.getTextContent();
 						
-						logger.info("Found row in maze.xml: {}", row);
-
 						for (int j = 0; j < row.length(); ++j) {
 							cells[i][j] = new Cell(i, j,
 									row.charAt(j) == '1' ? CellType.WALL
