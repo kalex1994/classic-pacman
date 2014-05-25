@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * in the maze. It selects a random empty cell, then it moves toward that cell on the shortest path.
  */
 public class Ghost {
-	private static Logger	logger = LoggerFactory.getLogger(GameFrame.class);
+	private static Logger	logger = LoggerFactory.getLogger(Ghost.class);
 	
 	/**
 	 * The name of the ghost.

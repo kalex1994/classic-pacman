@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
  * Class for representing the maze where the game is played.
  */
 public class Maze {
-	private static Logger	logger = LoggerFactory.getLogger(GameFrame.class);
+	private static Logger	logger = LoggerFactory.getLogger(Maze.class);
 	
 	/**
 	 * The width of the maze specified in cells.
