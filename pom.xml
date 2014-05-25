@@ -76,7 +76,7 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>hu.unideb.inf.maven.GameFrame</mainClass>
+									<mainClass>hu.unideb.inf.maven.MainFrame</mainClass>
 								</manifest>
 							</archive>
 							<descriptorRefs>
