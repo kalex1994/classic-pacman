@@ -1,5 +1,6 @@
 package hu.unideb.inf.maven;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -191,18 +192,18 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 		pacmanAnimation = new PacmanAnimation(images.pacman, new int[] { 3, 2, 0, 1, 2 });
 	}
 	
-	ActionListener actionListener;
+	ActionListener listener;
 	
 	/**
 	 * Constructor for creating a {@code GameFrame} object.
 	 * All object initialization happens here.
 	 */
-	public GamePanel(ActionListener actionListener) {
+	public GamePanel(ActionListener listener) {
 		super();
 		addKeyListener(new MyKeyAdapter());
 		setPreferredSize(new Dimension(420, 540));
 		setFocusable(true);	
-		this.actionListener = actionListener;
+		this.listener = listener;
 	}
 	
 	private void gameEnded()
@@ -210,11 +211,7 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 		timer.stop();
 		levelStartTimer.stop();
 		JOptionPane.showMessageDialog(null, "The game has ended. Your score: " + highScore.getScore());
-		JButton b = new JButton();
-		b.setVisible(false);
-		b.setActionCommand("endgame");
-		b.addActionListener(actionListener);
-		b.doClick();
+		listener.actionPerformed(new ActionEvent(this, ActionEvent.RESERVED_ID_MAX + 1, "endgame"));
 	}
 	
 	/**
