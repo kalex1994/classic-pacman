@@ -49,7 +49,7 @@ public class ShortestPath {
 	 *          
 	 * @see <a href="http://en.wikipedia.org/wiki/Breadth-first_search">BFS</a>
 	 */
-	List<Direction> breadthFirstSearch(Cell source, Cell destination) {
+	List<Direction> breadthFirstSearch(Maze maze, Cell source, Cell destination) {
 		int dr[] = new int[] { -1, 1, 0, 0 };
 		int dc[] = new int[] { 0, 0, -1, 1 };
 
@@ -87,10 +87,10 @@ public class ShortestPath {
 					int nr = node.cell.getRow() + dr[i];
 					int nc = node.cell.getColumn() + dc[i];
 
-					if (nr >= 0 && nr < Maze.HEIGHT && nc >= 0
-							&& nc < Maze.WIDTH
-							&& Maze.cellAt(nr, nc).getType() == CellType.EMPTY)
-						nodes.add(new Node(Maze.cellAt(nr, nc), node));
+					if (nr >= 0 && nr < maze.HEIGHT && nc >= 0
+							&& nc < maze.WIDTH
+							&& maze.cellAt(nr, nc).getType() == CellType.EMPTY)
+						nodes.add(new Node(maze.cellAt(nr, nc), node));
 				}
 			}
 		}

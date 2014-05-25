@@ -20,39 +20,24 @@ import org.xml.sax.SAXException;
  * Class for representing the maze where the game is played.
  */
 public class Maze {
-	private static Logger	logger = LoggerFactory.getLogger(Maze.class);
 	
-	/**
-	 * The width of the maze specified in cells.
-	 */
-	static final int WIDTH = 28;
-
-	/**
-	 * The height of the maze specified in cells.
-	 */
-	static final int HEIGHT = 36;
-
-	/**
-	 * The representation of the maze.
-	 */
-	static private Cell cells[][] = new Cell[HEIGHT][WIDTH];
-
-	static {
-		loadMaze();
-	}
-
+	public final int HEIGHT = 36;
+	public final int WIDTH = 28;
+	private Cell cells[][];
+	
 	/**
 	 * Loads the maze from the XML document containing it. "1" represents wall.
 	 * "0" represents an empty cell that contains food. "2" represents an empty
 	 * cell that dont contains food.
 	 */
-	private static void loadMaze() {
+	public Maze(String fileName)
+	{
+		cells = new Cell[HEIGHT][WIDTH];
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
 			try {
-				Document doc = documentBuilder.parse(Maze.class
-						.getResourceAsStream("/maze.xml"));
+				Document doc = documentBuilder.parse(Maze.class.getResourceAsStream("/" + fileName));
 				NodeList nodeList = doc.getElementsByTagName("row");
 				for (int i = 0; i < nodeList.getLength(); ++i) {
 					Node node = nodeList.item(i);
@@ -83,7 +68,7 @@ public class Maze {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Returns a cell of the maze on the row and column specified.
 	 * 
@@ -92,11 +77,9 @@ public class Maze {
 	 * @param column
 	 *            the column of the cell
 	 * @return cell of the maze on the row and column specified
-	 * @throws ArrayIndexOutOfBoundsException
-	 *             if the specified row or column is outside of the maze's
-	 *             dimensions
+	 * @throws ArrayIndexOutOfBoundsException if the specified row or column is outside of the bounds of the maze
 	 */
-	public static Cell cellAt(int row, int column) {
+	public Cell cellAt(int row, int column) {
 		if (row < 0 || row >= HEIGHT || column < 0 || column >= WIDTH)
 			throw new ArrayIndexOutOfBoundsException(String.format("%d %d",
 					row, column));
@@ -112,7 +95,7 @@ public class Maze {
 	 * @return he cell that top left corner's coordinates equals with the (x, y)
 	 *         coordinates specified
 	 */
-	public static Cell cellOnCoordinate(Point position) {
+	public Cell cellOnCoordinate(Point position) {
 		if (position.x % Cell.WIDTH != 0 || position.y % Cell.WIDTH != 0)
 			return null;
 		int row = position.y / 15;
@@ -129,7 +112,7 @@ public class Maze {
 	 * 
 	 * @return a list of empty cells on the maze
 	 */
-	public static List<Cell> getEmptyCells() {
+	public List<Cell> getEmptyCells() {
 		List<Cell> emptyCells = new ArrayList<Cell>();
 		for (int i = 0; i < HEIGHT; ++i)
 			for (int j = 0; j < WIDTH; ++j)
@@ -138,3 +121,4 @@ public class Maze {
 		return emptyCells;
 	}
 }
+

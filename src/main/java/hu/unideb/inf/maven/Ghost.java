@@ -54,6 +54,8 @@ public class Ghost {
 	 * List of directions to move along the shortest path from a source cell to a destination cell.
 	 */
 	private List<Direction> path;
+	
+	private Maze maze;
 
 	/**
 	 * Constructor for creating a {@code Ghost} object. A target cell is selected randomly for the ghost.
@@ -62,10 +64,11 @@ public class Ghost {
 	 * @param name the name of the ghost
 	 * @param position the (x, y) position of the ghost in the maze
 	 */
-	public Ghost(String name, Point position) {
+	public Ghost(Maze maze, String name, Point position) {
+		this.maze = maze;
 		this.name = name;
 		this.position = position;
-		this.currentCell = Maze.cellOnCoordinate(position);
+		this.currentCell = maze.cellOnCoordinate(position);
 
 		while (true) {
 			targetCell = getTargetCell();
@@ -74,7 +77,7 @@ public class Ghost {
 				break;
 		}
 
-		this.path = shortestPath.breadthFirstSearch(currentCell, targetCell);
+		this.path = shortestPath.breadthFirstSearch(maze, currentCell, targetCell);
 		this.direction = path.get(path.size() - 1);
 	}
 
@@ -84,7 +87,7 @@ public class Ghost {
 	 * @return a randomly chosen empty cell from the maze
 	 */
 	private Cell getTargetCell() {
-		List<Cell> emptyCells = Maze.getEmptyCells();
+		List<Cell> emptyCells = maze.getEmptyCells();
 		return emptyCells.get(rand.nextInt(emptyCells.size()));
 	}
 
@@ -95,7 +98,7 @@ public class Ghost {
 	 */
 	public void update() {
 		if (position.x % 15 == 0 && position.y % 15 == 0) {
-			currentCell = Maze.cellOnCoordinate(position);
+			currentCell = maze.cellOnCoordinate(position);
 
 			if (currentCell.equals(targetCell)) {
 				while (true) {
@@ -104,7 +107,7 @@ public class Ghost {
 					if (!currentCell.equals(targetCell))
 						break;
 				}
-				path = shortestPath.breadthFirstSearch(currentCell, targetCell);
+				path = shortestPath.breadthFirstSearch(maze, currentCell, targetCell);
 			}
 
 			direction = path.remove(path.size() - 1);

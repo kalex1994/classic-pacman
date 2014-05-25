@@ -30,6 +30,8 @@ public class Pacman {
 	 * The number of lives Pacman has.
 	 */
 	private int numberOfLives;
+	
+	private Maze maze;
 
 	/**
 	 * Constructor for creating a {@code Pacman} object.
@@ -43,8 +45,9 @@ public class Pacman {
 	 * @param numberOfLifes
 	 *            the number of lives Pacman has
 	 */
-	public Pacman(Point position, Cell currentCell, Direction currentDirection,
+	public Pacman(Maze maze, Point position, Cell currentCell, Direction currentDirection,
 			int numberOfLifes) {
+		this.maze = maze;
 		this.position = position;
 		this.currentCell = currentCell;
 		this.currentDirection = currentDirection;
@@ -85,12 +88,12 @@ public class Pacman {
 			break;
 		}
 
-		if (row < 0 || row >= Maze.HEIGHT || column < 0 || column >= Maze.WIDTH) {
-			if (row == 17 && (column < 0 || column >= Maze.WIDTH))
+		if (row < 0 || row >= maze.HEIGHT || column < 0 || column >= maze.WIDTH) {
+			if (row == 17 && (column < 0 || column >= maze.WIDTH))
 				return true;
 			return false;
 		}
-		if (Maze.cellAt(row, column).getType() == CellType.WALL)
+		if (maze.cellAt(row, column).getType() == CellType.WALL)
 			return false;
 		return true;
 	}
@@ -103,13 +106,13 @@ public class Pacman {
 	 */
 	public void update() {
 		if (position.x % 15 == 0 && position.y % 15 == 0) {
-			currentCell = Maze.cellOnCoordinate(position);
+			currentCell = maze.cellOnCoordinate(position);
 
 			if (currentCell.getColumn() == -1) {
-				currentCell = new Cell(currentCell.getRow(), Maze.WIDTH,
+				currentCell = new Cell(currentCell.getRow(), maze.WIDTH,
 						CellType.EMPTY);
 				position = Cell.positionOfCell(currentCell);
-			} else if (currentCell.getColumn() == Maze.WIDTH) {
+			} else if (currentCell.getColumn() == maze.WIDTH) {
 				currentCell = new Cell(currentCell.getRow(), -1, CellType.EMPTY);
 				position = Cell.positionOfCell(currentCell);
 			}

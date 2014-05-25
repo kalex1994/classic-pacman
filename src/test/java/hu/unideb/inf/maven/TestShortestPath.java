@@ -12,6 +12,8 @@ public class TestShortestPath {
 	@Test
 	public void testBreadthFirstSearch()
 	{
+		Maze maze = new Maze("testmaze.xml");
+		
 		List<Direction> expectedPath = new ArrayList<Direction>();
 		expectedPath.add(Direction.RIGHT);
 		expectedPath.add(Direction.RIGHT);
@@ -20,8 +22,8 @@ public class TestShortestPath {
 		expectedPath.add(Direction.DOWN);
 		expectedPath.add(Direction.DOWN);
 		
-		List<Direction> path = new ShortestPath().breadthFirstSearch(Maze.cellAt(4, 1),
-				Maze.cellAt(8, 3));
+		List<Direction> path = new ShortestPath().breadthFirstSearch(maze, maze.cellAt(4, 1),
+				maze.cellAt(8, 3));
 		
 		assertEquals(expectedPath, path);
 	}

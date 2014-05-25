@@ -1,20 +1,49 @@
 package hu.unideb.inf.maven;
 
+import java.util.Date;
+
 /**
  * Class representing the player's score.
  */
-public class HighScore {
+public class HighScore implements Comparable<HighScore>{
 	/**
 	 * The score of the player.
 	 */
 	private int score;
+	private String name;
+	private Date date;
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public int getScore()
+	{
+		return score;
+	}
+
 	/**
 	 * Constructor for creating a {@code HighScore} object.
 	 */
 	public HighScore()
 	{
-		this.score = 0;
+		score = 0;
 	}
 	
 	/**
@@ -24,16 +53,12 @@ public class HighScore {
 	 */
 	public void update(int amount)
 	{
-		this.score += amount;
+		score += amount;
 	}
-	
-	/**
-	 * Returns the score of the player.
-	 * 
-	 * @return the score of the player
-	 */
-	public int getScore()
-	{
-		return score;
+
+	public int compareTo(HighScore other) {
+		if (score > other.score) return -1;
+		if (score < other.score) return 1;
+		return date.before(other.date) ? -1 : 1;
 	}
 }

@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -66,7 +69,13 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	/**
 	 * Font used for drawing the players score.
 	 */
-	private final Font font = new Font("Helvetica", Font.BOLD, 16);
+	private final Font highscoreFont = new Font("Helvetica", Font.BOLD, 16);
+	
+	private final Font levelFont = new Font("Helvetica", Font.BOLD, 20);
+	
+	private Maze maze = new Maze("maze.xml");
+	
+	private int actualLevel;
 
 	/**
 	 * Invoked when an action is performed.
@@ -80,12 +89,12 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	 */
 	private void initGhosts()
 	{
-		ghosts[0] = new Ghost("pinky", Cell.positionOfCell(4, 1));
-		ghosts[1] = new Ghost("blinky", Cell.positionOfCell(4, 26));
-		ghosts[2] = new Ghost("clyde", Cell.positionOfCell(32, 1));
-		ghosts[3] = new Ghost("inky", Cell.positionOfCell(32, 26));
-		ghosts[4] = new Ghost("orson", Cell.positionOfCell(11, 1));
-		ghosts[5] = new Ghost("spooky", Cell.positionOfCell(11, 26));
+		ghosts[0] = new Ghost(maze, "pinky", Cell.positionOfCell(4, 1));
+		ghosts[1] = new Ghost(maze, "blinky", Cell.positionOfCell(4, 26));
+		ghosts[2] = new Ghost(maze, "clyde", Cell.positionOfCell(32, 1));
+		ghosts[3] = new Ghost(maze, "inky", Cell.positionOfCell(32, 26));
+		ghosts[4] = new Ghost(maze, "orson", Cell.positionOfCell(11, 1));
+		ghosts[5] = new Ghost(maze, "spooky", Cell.positionOfCell(11, 26));
 	}
 	
 	/**
@@ -93,10 +102,18 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	 */
 	private void initNewLevel()
 	{
+		maze = new Maze("maze.xml");
 		Point position = Cell.positionOfCell(26, 13);
 		position.x += 7;
-		pacman = new Pacman(position, Maze.cellAt(26, 13), Direction.RIGHT, 3);
+		if (highScore.getScore() == 0)
+			pacman = new Pacman(maze, position, maze.cellAt(26, 13), Direction.RIGHT, 3);
+		else
+			pacman = new Pacman(maze, position, maze.cellAt(26, 13), 
+					Direction.RIGHT, pacman.getNumberOfLives());
 		initGhosts();
+		
+		timer.stop();
+		levelStartTimer.restart();
 	}
 	
 	/**
@@ -107,7 +124,8 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	{
 		Point position = Cell.positionOfCell(26, 13);
 		position.x += 7;
-		pacman = new Pacman(position, Maze.cellAt(26, 13), Direction.RIGHT, pacman.getNumberOfLives() - 1);
+		pacman = new Pacman(maze, position, maze.cellAt(26, 13),
+				Direction.RIGHT, pacman.getNumberOfLives() - 1);
 		pacmanAnimation.reset();
 		initGhosts();
 		repaint();
@@ -130,6 +148,16 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 		if (pacman.getCurrentCell().getContainsFood() == true) {
 			pacman.getCurrentCell().setContainsFood(false);
 			highScore.update(10);
+		}
+		if (highScore.getScore() / 2440 == actualLevel)
+		{
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			initNewLevel();
+			++actualLevel;
 		}
 	}
 	
@@ -161,7 +189,7 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 			pacman.update();
 			for (Ghost ghost : ghosts)
 				ghost.update();	
-			updateHighScore();
+			updateHighScore();					
 			updatePacmansAnimation();
 			
 			for(Ghost ghost : ghosts)
@@ -183,13 +211,13 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	public void startGame()
 	{
 		images = new ImageContainer();		
-		initNewLevel();
 		timer = new Timer(15, this);
 		timer.setRepeats(true);		
 		levelStartTimer = new Timer(2000, this);
-		levelStartTimer.start();
 		highScore = new HighScore();
 		pacmanAnimation = new PacmanAnimation(images.pacman, new int[] { 3, 2, 0, 1, 2 });
+		actualLevel = 1;
+		initNewLevel();
 	}
 	
 	ActionListener listener;
@@ -210,7 +238,36 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	{
 		timer.stop();
 		levelStartTimer.stop();
-		JOptionPane.showMessageDialog(null, "The game has ended. Your score: " + highScore.getScore());
+
+		final String name = JOptionPane.showInputDialog(null, "Please enter you name: ", 
+				"The game has ended.", 1);
+
+		if (name != null)
+		{
+			Thread thread = new Thread(){
+			    public void run(){
+			    	HighScoreDAO highScoreDAO = HighScoreDAOImpl.getInstance();
+			    	
+			    	List<HighScore> highScores = highScoreDAO.getAllHighScore();
+			    	
+					highScore.setName(name);
+					highScore.setDate(new Date());
+					highScores.add(highScore);
+					Collections.sort(highScores);
+					
+					highScoreDAO.deleteAllHighScore();
+					
+					if (highScores.size() > 10)
+						for(int i = 0; i < 10; ++i)
+							highScoreDAO.addHighScore(highScores.get(i));
+					else
+						for(HighScore hs : highScores)
+							highScoreDAO.addHighScore(hs);			
+			    }
+			  };
+			  thread.start();
+		}
+
 		listener.actionPerformed(new ActionEvent(this, ActionEvent.RESERVED_ID_MAX + 1, "endgame"));
 	}
 	
@@ -222,6 +279,7 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 		graphics.drawImage(images.background, 0, 0, null);
 		drawFood(g);
 		drawHighScore(g);
+		drawLevelInformation(g);
 		drawPacmansLives(g);
 		for (Ghost ghost : ghosts)
 			drawGhost(g, ghost);
@@ -234,8 +292,7 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	 * @param g {@link java.awt.Graphics Graphics} object used for drawing
 	 */
 	private void drawPacmansLives(Graphics g) {
-		Point position = Cell.positionOfCell(Maze.HEIGHT - 1,
-				Maze.WIDTH - 6);
+		Point position = Cell.positionOfCell(maze.HEIGHT - 1, maze.WIDTH - 6);
 		for (int i = 0; i < pacman.getNumberOfLives(); ++i) {
 			g.drawImage(images.pacmanLife, position.x - 3, position.y - 9, null);
 			position.x += 2 * Cell.WIDTH;
@@ -282,11 +339,11 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	 * @param g {@link java.awt.Graphics Graphics } object used for drawing
 	 */
 	private void drawFood(Graphics g) {
-		for (int i = 0; i < Maze.HEIGHT; ++i)
-			for (int j = 0; j < Maze.WIDTH; ++j)
-				if (Maze.cellAt(i, j).getContainsFood() == true) {
+		for (int i = 0; i < maze.HEIGHT; ++i)
+			for (int j = 0; j < maze.WIDTH; ++j)
+				if (maze.cellAt(i, j).getContainsFood() == true) {
 					g.setColor(Color.WHITE);
-					Point position = Cell.positionOfCell(Maze.cellAt(i, j));
+					Point position = Cell.positionOfCell(maze.cellAt(i, j));
 					int centerX = position.x + Cell.WIDTH / 2 + 1;
 					int centerY = position.y + Cell.HEIGHT / 2 + 1;
 					g.fillRect(centerX - 1, centerY - 1, 2, 2);
@@ -299,11 +356,20 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	 * @param g {@link java.awt.Graphics Graphics} object used for drawing
 	 */
 	private void drawHighScore(Graphics g) {
-		g.setFont(font);
+		g.setFont(highscoreFont);
 		g.setColor(Color.RED);
 		String s = "Score: " + highScore.getScore();
-		Point position = Cell.positionOfCell(Maze.HEIGHT - 1, 0);
+		Point position = Cell.positionOfCell(maze.HEIGHT - 1, 0);
 		g.drawString(s, position.x + 10, position.y + 5);
+	}
+	
+	private void drawLevelInformation(Graphics g)
+	{
+		g.setFont(highscoreFont);
+		g.setColor(Color.RED);
+		String s = "Level " + actualLevel;
+		Point position = Cell.positionOfCell(2, 12);
+		g.drawString(s, position.x, position.y - 5);
 	}
 	
 	class MyKeyAdapter extends KeyAdapter {
