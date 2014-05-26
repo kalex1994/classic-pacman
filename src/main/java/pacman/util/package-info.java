@@ -1,8 +1,4 @@
 /**
- * 
- */
-/**
- * @author kalex1994
- *
+ * Package for helper classes.
  */
 package pacman.util;

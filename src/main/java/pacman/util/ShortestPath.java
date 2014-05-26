@@ -25,7 +25,7 @@ public class ShortestPath {
 		 * A cell of the maze.
 		 */
 		private Cell cell;
-		
+
 		/**
 		 * The parent of this node.
 		 */
@@ -33,9 +33,11 @@ public class ShortestPath {
 
 		/**
 		 * Constructor for creating a {@code Node} object.
-		 *
-		 * @param cell a cell of the maze
-		 * @param parent the parent of this node
+		 * 
+		 * @param cell
+		 *            a cell of the maze
+		 * @param parent
+		 *            the parent of this node
 		 */
 		public Node(Cell cell, Node parent) {
 			this.cell = cell;
@@ -44,17 +46,21 @@ public class ShortestPath {
 	}
 
 	/**
-	 * Gets the shortest path from a source cell to a destination cell using the breadth-first search
-	 * algorithm. A shortest path always exists in the given Maze.
+	 * Gets the shortest path from a source cell to a destination cell using the
+	 * breadth-first search algorithm. A shortest path always exists in the
+	 * given Maze.
 	 * 
-	 * @param source the source cell of the algorithm
-	 * @param destination the destination cell of the algorithm
-	 * @return a list containing directions to move on the shortest path from the source cell to the
-	 *          target cell in reversed order
-	 *          
+	 * @param source
+	 *            the source cell of the algorithm
+	 * @param destination
+	 *            the destination cell of the algorithm
+	 * @return a list containing directions to move on the shortest path from
+	 *         the source cell to the target cell in reversed order
+	 * 
 	 * @see <a href="http://en.wikipedia.org/wiki/Breadth-first_search">BFS</a>
 	 */
-	public List<Direction> breadthFirstSearch(Maze maze, Cell source, Cell destination) {
+	public List<Direction> breadthFirstSearch(Maze maze, Cell source,
+			Cell destination) {
 		int dr[] = new int[] { -1, 1, 0, 0 };
 		int dc[] = new int[] { 0, 0, -1, 1 };
 
