@@ -86,7 +86,7 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>hu.unideb.inf.maven.MainFrame</mainClass>
+									<mainClass>pacman.gui.MainFrame</mainClass>
 								</manifest>
 							</archive>
 							<descriptorRefs>
