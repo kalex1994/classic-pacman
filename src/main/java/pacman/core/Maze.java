@@ -94,7 +94,7 @@ public class Maze {
 	 * @param column
 	 *            the column of the cell
 	 * @return cell of the maze on the row and column specified
-	 * @throws ArrayIndexOutOfBoundsException if the specified row or column is outside of the bounds of the maze
+	 * @throw ArrayIndexOutOfBoundsException if the specified row or column is outside of the bounds of the maze
 	 */
 	public Cell cellAt(int row, int column) {
 		if (row < 0 || row >= HEIGHT || column < 0 || column >= WIDTH)

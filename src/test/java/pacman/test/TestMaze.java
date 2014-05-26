@@ -15,6 +15,13 @@ public class TestMaze {
 	
 	private static Maze maze = new Maze("testmaze.xml");
 	
+	@Test
+	public void testFields()
+	{
+		assertTrue(maze.HEIGHT == 36);
+		assertTrue(maze.WIDTH == 28);
+	}
+	
 	@SuppressWarnings("unused")
 	@Test
 	public void testCellAtException()
@@ -30,7 +37,14 @@ public class TestMaze {
 	}
 	
 	@Test
-	public void TestCellOnCoordinate()
+	public void testCellAt()
+	{
+		Cell c = maze.cellAt(4, 1);
+		assertTrue(c.getType() == CellType.EMPTY);
+	}
+	
+	@Test
+	public void testCellOnCoordinate()
 	{
 		Cell c = maze.cellOnCoordinate(new Point(15, 60));
 		assertTrue(c.getRow() == 4 && c.getColumn() == 1);
