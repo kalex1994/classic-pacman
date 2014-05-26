@@ -41,6 +41,8 @@ public class Maze {
 	 * Loads the maze from the XML document specified. "1" represents wall. "0"
 	 * represents an empty cell that contains food. "2" represents an empty cell
 	 * that dont contains food.
+	 * 
+	 * @param fileName the name of the XML documentum which holds the maze information
 	 */
 	public Maze(String fileName) {
 		cells = new Cell[HEIGHT][WIDTH];
@@ -92,9 +94,7 @@ public class Maze {
 	 * @param column
 	 *            the column of the cell
 	 * @return cell of the maze on the row and column specified
-	 * @throws ArrayIndexOutOfBoundsException
-	 *             if the specified row or column is outside of the bounds of
-	 *             the maze
+	 * @throws ArrayIndexOutOfBoundsException if the specified row or column is outside of the bounds of the maze
 	 */
 	public Cell cellAt(int row, int column) {
 		if (row < 0 || row >= HEIGHT || column < 0 || column >= WIDTH)

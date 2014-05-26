@@ -11,37 +11,37 @@ import pacman.core.Direction;
  */
 public class ImageContainer {
 	/**
-	 * Images for the ghost named "blinky"
+	 * Images for the ghost named "blinky".
 	 */
 	public Image blinky[] = new Image[4];
 
 	/**
-	 * Images for the ghost named "pinky"
+	 * Images for the ghost named "pinky".
 	 */
 	public Image pinky[] = new Image[4];
 
 	/**
-	 * Images for the ghost named "inky"
+	 * Images for the ghost named "inky".
 	 */
 	public Image inky[] = new Image[4];
 
 	/**
-	 * Images for the ghost named "clyde"
+	 * Images for the ghost named "clyde".
 	 */
 	public Image clyde[] = new Image[4];
 
 	/**
-	 * Images for the ghost named "orson"
+	 * Images for the ghost named "orson".
 	 */
 	public Image orson[] = new Image[4];
 
 	/**
-	 * Images for the ghost named "spooky"
+	 * Images for the ghost named "spooky".
 	 */
 	public Image spooky[] = new Image[4];
 
 	/**
-	 * Images for Pacman
+	 * Images for Pacman.
 	 */
 	public Image pacman[] = new Image[4];
 

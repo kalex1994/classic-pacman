@@ -101,6 +101,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	/**
 	 * Invoked when an action is performed.
+	 * 
+	 * @param e the action fired
 	 */
 	public void actionPerformed(ActionEvent e) {
 		updateGame();
@@ -238,6 +240,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	/**
 	 * Constructor for creating a {@code GameFrame} object.
+	 * 
+	 * @param listener listens for fired action
 	 */
 	public GamePanel(ActionListener listener) {
 		super();

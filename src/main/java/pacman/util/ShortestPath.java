@@ -50,6 +50,8 @@ public class ShortestPath {
 	 * breadth-first search algorithm. A shortest path always exists in the
 	 * given Maze.
 	 * 
+	 * @param maze
+	 * 			  the {@link pacman.core.Maze} where the game takes place on
 	 * @param source
 	 *            the source cell of the algorithm
 	 * @param destination

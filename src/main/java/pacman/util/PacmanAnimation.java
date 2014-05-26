@@ -115,7 +115,7 @@ public class PacmanAnimation {
 	}
 
 	/**
-	 * Draws Pacman according to its current direction
+	 * Draws Pacman according to its current direction.
 	 * 
 	 * @param g
 	 *            {@link java.awt.Graphics Graphics} object used for drawing
