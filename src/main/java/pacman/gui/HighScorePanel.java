@@ -20,6 +20,7 @@ import pacman.database.HighScore;
 import pacman.database.HighScoreDAO;
 import pacman.database.HighScoreDAOImpl;
 
+@SuppressWarnings("serial")
 public class HighScorePanel extends JPanel{
 	private Image background;
 	private List<HighScore> highScores;
