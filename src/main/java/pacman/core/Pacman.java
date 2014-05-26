@@ -3,7 +3,7 @@ package pacman.core;
 import java.awt.Point;
 
 /**
- * Class for representing Pacman.
+ * Class for representing Pacman. Pacman is controled by the player.
  */
 public class Pacman {
 	/**
@@ -30,12 +30,17 @@ public class Pacman {
 	 * The number of lives Pacman has.
 	 */
 	private int numberOfLives;
-	
+
+	/**
+	 * The maze where the game takes place on.
+	 */
 	private Maze maze;
 
 	/**
 	 * Constructor for creating a {@code Pacman} object.
 	 * 
+	 * @param maze
+	 *            the maze where the game takes place on
 	 * @param position
 	 *            (x, y) coordinates of Pacman on the maze
 	 * @param currentCell
@@ -45,8 +50,8 @@ public class Pacman {
 	 * @param numberOfLifes
 	 *            the number of lives Pacman has
 	 */
-	public Pacman(Maze maze, Point position, Cell currentCell, Direction currentDirection,
-			int numberOfLifes) {
+	public Pacman(Maze maze, Point position, Cell currentCell,
+			Direction currentDirection, int numberOfLifes) {
 		this.maze = maze;
 		this.position = position;
 		this.currentCell = currentCell;
