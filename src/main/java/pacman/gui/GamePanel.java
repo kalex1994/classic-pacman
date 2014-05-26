@@ -1,6 +1,5 @@
 package pacman.gui;
 
-import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,8 +13,6 @@ import java.awt.event.KeyEvent;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -80,9 +77,8 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	/**
 	 * Font used for drawing the players score.
 	 */
-	private final Font highscoreFont = new Font("Helvetica", Font.BOLD, 16);
+	private final Font myFont = new Font("Helvetica", Font.BOLD, 16);
 	
-	private final Font levelFont = new Font("Helvetica", Font.BOLD, 20);
 	
 	private Maze maze = new Maze("maze.xml");
 	
@@ -366,7 +362,7 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	 * @param g {@link java.awt.Graphics Graphics} object used for drawing
 	 */
 	private void drawHighScore(Graphics g) {
-		g.setFont(highscoreFont);
+		g.setFont(myFont);
 		g.setColor(Color.RED);
 		String s = "Score: " + highScore.getScore();
 		Point position = Cell.positionOfCell(maze.HEIGHT - 1, 0);
@@ -375,7 +371,7 @@ private static Logger	logger = LoggerFactory.getLogger(GamePanel.class);
 	
 	private void drawLevelInformation(Graphics g)
 	{
-		g.setFont(highscoreFont);
+		g.setFont(myFont);
 		g.setColor(Color.RED);
 		String s = "Level " + actualLevel;
 		Point position = Cell.positionOfCell(2, 12);

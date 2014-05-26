@@ -2,23 +2,11 @@ package pacman.gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import pacman.database.HighScoreDAOImpl;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame implements ActionListener{
