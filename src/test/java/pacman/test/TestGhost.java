@@ -20,6 +20,8 @@ public class TestGhost {
 	public void testFields()
 	{
 		Ghost g = new Ghost(maze, "pinky", position);
+		assertTrue(g.getCurrentCell().equals(maze.cellOnCoordinate(position)));
+		assertTrue(g.getDirection() != Direction.NONE);
 		assertTrue(g.getName().equals("pinky"));
 		assertTrue(g.getPosition().equals(position));
 	}
@@ -31,6 +33,8 @@ public class TestGhost {
 				maze.cellAt(4, 1), Direction.RIGHT, 3);
 		Ghost g = new Ghost(maze, "pinky", position);
 		assertTrue(g.isCollidedWithPacman(pacman));
+		pacman.position = Cell.positionOfCell(4, 2);
+		assertFalse(g.isCollidedWithPacman(pacman));
 	}
 	
 	@Test

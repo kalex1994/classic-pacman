@@ -26,16 +26,37 @@ public class TestPacman {
 		assertTrue(pacman.getNumberOfLives() == 3);
 		pacman.setNumberOfLives(pacman.getNumberOfLives() - 1);
 		assertTrue(pacman.getNumberOfLives() == 2);
+		
+		pacman.setCurrentDirection(Direction.NONE);
+		pacman.update();
+		assertTrue(pacman.getCurrentDirection() == Direction.NONE);
 	}
 	
 	@Test
 	public void testMovement()
 	{
 		Pacman pacman = new Pacman(maze, position, maze.cellAt(4, 1), Direction.RIGHT, 3);	
-		int x1 = pacman.position.x;
+		
+		int a = pacman.position.x;
 		pacman.update();
-		int x2 = pacman.position.x;
-		assertTrue(x2 - x1 == 1);
+		int b = pacman.position.x;
+		assertTrue(b - a == 1);
+		
+		pacman.setCurrentDirection(Direction.LEFT);
+		pacman.update();
+		b = pacman.position.x;
+		assertTrue(a == b);
+		
+		a = pacman.position.y;
+		pacman.setCurrentDirection(Direction.DOWN);
+		pacman.update();
+		b = pacman.position.y;
+		assertTrue(b - a == 1);
+		
+		pacman.setCurrentDirection(Direction.UP);
+		pacman.update();
+		b = pacman.position.y;
+		assertTrue(a == b);	
 	}
 	
 	@Test
