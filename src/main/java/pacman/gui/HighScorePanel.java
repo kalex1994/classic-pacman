@@ -20,49 +20,77 @@ import pacman.database.HighScore;
 import pacman.database.HighScoreDAO;
 import pacman.database.HighScoreDAOImpl;
 
+/**
+ * Custom {@link JPanel} for displaying high scores.
+ */
 @SuppressWarnings("serial")
-public class HighScorePanel extends JPanel{
+public class HighScorePanel extends JPanel {
+	/**
+	 * The background image of the panel.
+	 */
 	private Image background;
+
+	/**
+	 * List of highScores. Extracted from the database.
+	 */
 	private List<HighScore> highScores;
+
+	/**
+	 * Used for drawing the high scores.
+	 */
 	private final Font highscoreFont = new Font("Helvetica", Font.BOLD, 13);
-	
-	public HighScorePanel(ActionListener actionListener)
-	{
+
+	/**
+	 * Constructor for creating a {@code HighScorePanel} object.
+	 * 
+	 * @param actionListener
+	 *            listens for actions fired on the panel.
+	 */
+	public HighScorePanel(ActionListener actionListener) {
 		super();
 		setPreferredSize(new Dimension(420, 540));
-		
+
 		JButton btnBack = new JButton("Back");
 		btnBack.setActionCommand("back");
 		btnBack.setFocusPainted(false);
 		btnBack.addActionListener(actionListener);
-		
+
 		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(150)
-					.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(149, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(477, Short.MAX_VALUE)
-					.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
+				Alignment.TRAILING).addGroup(
+				Alignment.LEADING,
+				groupLayout
+						.createSequentialGroup()
+						.addGap(150)
+						.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 121,
+								GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(149, Short.MAX_VALUE)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
+				Alignment.TRAILING).addGroup(
+				groupLayout
+						.createSequentialGroup()
+						.addContainerGap(477, Short.MAX_VALUE)
+						.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 51,
+								GroupLayout.PREFERRED_SIZE).addContainerGap()));
 		setLayout(groupLayout);
-		
-		background = new ImageIcon(getClass().getResource("/highscore_background.jpg")).getImage();
+
+		background = new ImageIcon(getClass().getResource(
+				"/highscore_background.jpg")).getImage();
 	}
-	
-	public void refresh()
-	{
+
+	/**
+	 * Refreshes the list of high scores. All information is extracted from the
+	 * database.
+	 */
+	public void refresh() {
 		HighScoreDAO highScoreDAO = HighScoreDAOImpl.getInstance();
 		highScores = highScoreDAO.getAllHighScore();
 		Collections.sort(highScores);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -70,16 +98,16 @@ public class HighScorePanel extends JPanel{
 		g.setFont(highscoreFont);
 		g.setColor(Color.RED);
 		int i = 0;
-		for(HighScore highScore : highScores)
-		{					
-			String date = new SimpleDateFormat("yyyy-MM-dd").format(highScore.getDate());
+		for (HighScore highScore : highScores) {
+			String date = new SimpleDateFormat("yyyy-MM-dd").format(highScore
+					.getDate());
 			String name = highScore.getName();
-			
+
 			String column1 = String.format("%2d. Name: %s", i + 1,
 					name.length() > 8 ? name.substring(0, 9) : name);
 			String column2 = String.format("Date: %s", date);
 			String column3 = String.format("Score: %d", highScore.getScore());
-			
+
 			g.drawString(column1, 10, 200 + i * 20);
 			g.drawString(column2, 160, 200 + i * 20);
 			g.drawString(column3, 310, 200 + i * 20);

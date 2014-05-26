@@ -16,11 +16,23 @@ import javax.swing.SwingConstants;
 
 import java.awt.Component;
 
+/**
+ * Custom {@link JPanel} where the game's menu is displayed.
+ */
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
 
+	/**
+	 * The background image of the menu.
+	 */
 	private Image background;
 	
+	/**
+	 * Constructor for creating a {@code MenuPanel} object.
+	 * 
+	 * @param actionListener
+	 *            listens for actions fired on the panel.
+	 */
 	public MenuPanel(ActionListener actionListener) {
 		super();
 		setPreferredSize(new Dimension(420, 540));
@@ -68,6 +80,9 @@ public class MenuPanel extends JPanel {
 		background = new ImageIcon(getClass().getResource("/menu_background.jpg")).getImage();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
